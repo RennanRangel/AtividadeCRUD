@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CRUD Básico</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="container">
+    <h1>CRUD</h1>
+
+    <form id="userForm">
+        <input type="text" id="nome" placeholder="Nome" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="tel" id="telefone" placeholder="Telefone" required />
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <ul id="userList"></ul>
+</div>
+
+<script>
+    fetch('http://localhost:63342/crud1&#39;)<br/> .then(resp => resp.json())
+    .then(data => {
+    console.log('Dados:', data);
+    const lista = document.getElementById('userList');
+    data.forEach(cliente => {
+    const item = document.createElement('li');
+    item.textContent = `${cliente.nome} - ${cliente.email} - ${cliente.telefone}`;
+    lista.appendChild(item);
+    });
+    })
+    .catch(err => console.error('Erro:', err));
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
