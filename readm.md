@@ -155,15 +155,20 @@ Para configurar e executar o projeto, siga os passos abaixo:
 * **Validação de Dados:** Utilização de `jakarta.validation` para validar os dados de entrada no `ClienteForm` antes da persistência, assegurando a qualidade dos dados.
 * **Separação de Responsabilidades:** Divisão clara do código em camadas (Controller para requisições, Repository para contrato de dados, Service/DAO para implementação de dados, Entity para modelo, Form para DTO de entrada).
 
+
+
+
 ##  Principais Aprendizados e Dificuldades
 
 
 ### Aprendizados:
 
 
-
-
 ### Dificuldades:
+
+
+
+
 
 
 
