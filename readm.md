@@ -103,160 +103,46 @@ Para configurar e executar o projeto, siga os passos abaixo:
                 // Injeta o DAO no Controller
                 ClienteController controller = new ClienteController(clienteDao);
 
-                // Configuração do Bean Validation (Jakarta Validation).
-                // Cria uma fábrica de validadores.
-                ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-                // Obtém uma instância do validador a partir da fábrica.
-                Validator validator = factory.getValidator();
+                System.out.println("--- Criando Cliente ---");
+                ClienteForm newClientForm = new ClienteForm();
+                newClientForm.setNome("Fulano de Tal");
+                newClientForm.setEmail("fulano@example.com");
+                newClientForm.setTelefone("11987654321");
+                Cliente createdCliente = controller.create(newClientForm);
+                System.out.println("Cliente criado: " + createdCliente.getNome() + " (ID: " + createdCliente.getIdCliente() + ")");
 
-                int opcao; // Variável para armazenar a opção escolhida pelo usuário no menu.
+                System.out.println("\n--- Buscando Cliente por ID ---");
+                Cliente foundCliente = controller.get(createdCliente.getIdCliente());
+                if (foundCliente != null) {
+                    System.out.println("Cliente encontrado: " + foundCliente.getNome());
+                } else {
+                    System.out.println("Cliente não encontrado.");
+                }
 
-                // Loop principal do menu da aplicação. Continua executando até que o usuário escolha a opção "0 - Sair".
-                 do {
-                // Exibe o menu de opções para o usuário.
-                System.out.println("\n========== MENU ==========");
-                System.out.println("1 - Cadastrar cliente");
-                System.out.println("2 - Listar clientes");
-                System.out.println("3 - Atualizar cliente");
-                System.out.println("4 - Deletar cliente");
-                System.out.println("0 - Sair");
-                System.out.print("Escolha uma opção: ");
+                System.out.println("\n--- Atualizando Cliente ---");
+                ClienteForm updateForm = new ClienteForm();
+                updateForm.setNome("Fulano Atualizado");
+                updateForm.setEmail("fulano.novo@example.com");
+                updateForm.setTelefone("11999998888");
+                Cliente updatedCliente = controller.update(createdCliente.getIdCliente(), updateForm);
+                if (updatedCliente != null) {
+                    System.out.println("Cliente atualizado: " + updatedCliente.getNome());
+                }
 
-                // Verifica se a próxima entrada é um número inteiro.
-            if (scanner.hasNextInt()) {
-                opcao = scanner.nextInt(); // Lê a opção escolhida.
-            } else {
-                // Se a entrada não for um número, exibe uma mensagem de erro.
-                System.out.println("Entrada inválida. Digite um número.");
-                scanner.nextLine(); // Consome a linha inválida para evitar loop infinito.
-                opcao = -1;         // Define uma opção inválida para repetir o menu.
+                System.out.println("\n--- Listando todos os Clientes ---");
+                List<Cliente> allClients = controller.getAll(null);
+                allClients.forEach(c -> System.out.println("ID: " + c.getIdCliente() + ", Nome: " + c.getNome()));
+
+                System.out.println("\n--- Deletando Cliente ---");
+                controller.delete(createdCliente.getIdCliente());
+                System.out.println("Verificando se o cliente foi deletado...");
+                System.out.println("Cliente: " + controller.get(createdCliente.getIdCliente()));
+
+                // Nota: Em uma aplicação real, a SessionFactory deve ser fechada na finalização da aplicação.
+                // Isso normalmente é feito em um hook de shutdown ou gerenciado por um container como Spring.
+                // No ClienteDAO, a SessionFactory é estática, então ela persistirá enquanto a JVM estiver ativa.
             }
-            scanner.nextLine(); // Consome a quebra de linha pendente após nextInt() para evitar problemas com nextLine() subsequentes.
-
-            // Estrutura switch-case para lidar com a opção escolhida pelo usuário.
-            switch (opcao) {
-                case 1: // Cadastrar cliente
-                    System.out.print("Nome: ");
-                    String nome = scanner.nextLine(); // Lê o nome do cliente.
-                    System.out.print("Telefone: ");
-                    String telefone = scanner.nextLine(); // Lê o telefone do cliente.
-                    System.out.print("Email: ");
-                    String email = scanner.nextLine(); // Lê o email do cliente.
-
-                    // Cria um objeto ClienteForm para coletar os dados de entrada.
-                    ClienteForm form = new ClienteForm();
-                    form.setNome(nome);
-                    form.setTelefone(telefone);
-                    form.setEmail(email);
-
-                    // Realiza a validação do objeto ClienteForm usando o Bean Validation.
-                    Set<ConstraintViolation<ClienteForm>> erros = validator.validate(form);
-                    if (!erros.isEmpty()) {
-                        // Se houver erros de validação, os exibe no console.
-                        System.out.println("Erros de validação:");
-                        for (ConstraintViolation<ClienteForm> erro : erros) {
-                            System.out.println("- " + erro.getPropertyPath() + ": " + erro.getMessage());
-                        }
-                    } else {
-                        // Se não houver erros, chama o método create do controller para cadastrar o cliente.
-                        Cliente novoCliente = controller.create(form);
-                        System.out.println("Cliente cadastrado com ID: " + novoCliente.getIdCliente());
-                    }
-                    break;
-
-                case 2: // Listar clientes
-                    // Chama o método getAll do controller para obter a lista de todos os clientes.
-                    // O parâmetro vazio "" indica que não há filtro de busca.
-                    List<Cliente> clientes = controller.getAll("");
-                    if (clientes.isEmpty()) {
-                        // Se a lista estiver vazia, informa que nenhum cliente foi encontrado.
-                        System.out.println("Nenhum cliente encontrado.");
-                    } else {
-                        // Itera sobre a lista de clientes e exibe suas informações formatadas.
-                        for (Cliente cliente : clientes) {
-                            System.out.printf("ID: %d | Nome: %s | Telefone: %s | Email: %s\n",
-                                    cliente.getIdCliente(), cliente.getNome(), cliente.getTelefone(), cliente.getEmail());
-                        }
-                    }
-                    break;
-
-                case 3: // Atualizar cliente
-                    System.out.print("ID do cliente para atualizar: ");
-                    Long idAtualiza = null;
-                    try {
-                        // Tenta converter a entrada do usuário para um Long (ID do cliente).
-                        idAtualiza = Long.parseLong(scanner.nextLine());
-                    } catch (NumberFormatException e) {
-                        // Se a conversão falhar (entrada não é um número), exibe erro e sai do case.
-                        System.out.println("ID inválido.");
-                        break;
-                    }
-
-                    System.out.print("Novo nome: ");
-                    String novoNome = scanner.nextLine(); // Lê o novo nome.
-                    System.out.print("Novo telefone: ");
-                    String novoTelefone = scanner.nextLine(); // Lê o novo telefone.
-                    System.out.print("Novo email: ");
-                    String novoEmail = scanner.nextLine(); // Lê o novo email.
-
-                    // Cria um novo ClienteForm com os dados para atualização.
-                    ClienteForm atualizaForm = new ClienteForm();
-                    atualizaForm.setNome(novoNome);
-                    atualizaForm.setTelefone(novoTelefone);
-                    atualizaForm.setEmail(novoEmail);
-
-                    // Realiza a validação dos dados de atualização.
-                    Set<ConstraintViolation<ClienteForm>> errosUpdate = validator.validate(atualizaForm);
-                    if (!errosUpdate.isEmpty()) {
-                        // Se houver erros de validação, os exibe.
-                        System.out.println("Erros de validação:");
-                        for (ConstraintViolation<ClienteForm> erro : errosUpdate) {
-                            System.out.println("- " + erro.getPropertyPath() + ": " + erro.getMessage());
-                        }
-                    } else {
-                        // Se não houver erros, chama o método update do controller.
-                        Cliente atualizado = controller.update(idAtualiza, atualizaForm);
-                        if (atualizado != null) {
-                            // Se o cliente foi atualizado com sucesso (retornou um objeto), exibe mensagem de sucesso.
-                            System.out.println("Cliente atualizado com sucesso!");
-                        } else {
-                            // Se o controller retornou null, o cliente com o ID especificado não foi encontrado.
-                            System.out.println("Cliente com ID " + idAtualiza + " não encontrado.");
-                        }
-                    }
-                    break;
-
-                case 4: // Deletar cliente
-                    System.out.print("ID do cliente para deletar: ");
-                    try {
-                        // Tenta converter a entrada do usuário para um Long (ID do cliente a ser deletado).
-                        Long idDelete = Long.parseLong(scanner.nextLine());
-                        // Chama o método delete do controller. O tratamento de mensagens de sucesso/erro
-                        // para esta operação específica é feito dentro do método delete no controller/DAO.
-                        controller.delete(idDelete);
-                    } catch (NumberFormatException es) {
-                        // Captura erro se o ID não for um número válido.
-                        System.out.println("ID inválido.");
-                    } catch (RuntimeException run) {
-                        // Captura outras exceções de tempo de execução que podem vir do DAO/Controller
-                        // (ex: cliente não encontrado, erro de banco de dados).
-                        System.out.println(run.getMessage()); // Exibe a mensagem da exceção.
-                    }
-                    break;
-
-                case 0: // Sair da aplicação
-                    System.out.println("Encerrando...");
-                    break;
-
-                default: // Opção inválida
-                    System.out.println("Opção inválida!");
-                    break;
-            }
-
-        }  while (opcao != 0); // O loop continua enquanto a opção não for '0'.
-
-    
-        
+        }
         ```
     * Após criar a classe `Main`, execute-a a partir de sua IDE ou via Maven: `mvn exec:java -Dexec.mainClass="org.example.Main"`.
 
