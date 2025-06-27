@@ -199,54 +199,65 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
 </hibernate-configuration>
 ```
 
-**Explicação das Propriedades:**
+### Explicação das Propriedades:
 
- **<property name=hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>:** Define o driver JDBC a ser usado para conectar ao MySQL. com.mysql.cj.jdbc.Driver é o driver para MySQL Connector/J 8.x.
+ **<property name=hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>:** 
+ 
+Define o driver JDBC a ser usado para conectar ao MySQL. com.mysql.cj.jdbc.Driver é o driver para MySQL Connector/J 8.x.
 
+###
 ####
-**<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>:** A URL de conexão com o banco de dados. 
+**<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>:** 
 
-####
-**localhost:3306:** Onde seu servidor MySQL está rodando e a porta padrão. Ajuste se for diferente.
+A URL de conexão com o banco de dados. 
 
+###
 ####
-**cadastro:** O nome do banco de dados que você criou no passo 1.
+**localhost:3306:** 
 
-####
-**<property name=hibernate.connection.username">root</property:** O nome de usuário do seu MySQL. Ajuste se for diferente.
+Onde seu servidor MySQL está rodando e a porta padrão. Ajuste se for diferente.
 
+###
 ####
-**<property name=hibernate.connection.password"></property>:** A senha do seu usuário MySQL. Ajuste se for diferente. Se o usuário root não tiver senha, deixe as aspas vazias "".
+**cadastro:** 
 
-####
-**<property name= hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>:** Indica ao Hibernate qual dialeto SQL usar para interagir com o MySQL.
+O nome do banco de dados que você criou no passo 1.
 
+###
 ####
-**<property name= hibernate.show_sql">true</property>:** Faz com que o Hibernate imprima as instruções SQL geradas no console. Muito útil para depuração.
+**<property name=hibernate.connection.username">root</property:** 
 
-####
-**<property name= hibernate.hbm2ddl.auto">update</property>:** Extremamente importante e deve ser usado com cautela!
+O nome de usuário do seu MySQL. Ajuste se for diferente.
 
+###
 ####
-**update:** O Hibernate tentará criar tabelas se elas não existirem e atualizar o esquema se as entidades mudarem (adicionar colunas, etc.). Ele não irá dropar colunas ou tabelas que não são mais referenciadas, mas pode adicionar novas.
+**<property name=hibernate.connection.password"></property>:** 
 
-####
-**create:** Sempre cria o esquema do banco de dados ao iniciar o SessionFactory, dropando tabelas existentes primeiro (cuidado, apaga todos os dados!).
+A senha do seu usuário MySQL. Ajuste se for diferente. Se o usuário root não tiver senha, deixe as aspas vazias "".
 
+###
 ####
-**create-drop:** Cria o esquema ao iniciar e o dropa ao fechar o SessionFactory (ótimo para testes).
+**<property name= hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>:** 
 
-####
-**validate:** Apenas valida que o esquema do banco de dados corresponde às suas entidades, sem fazer alterações.
+Indica ao Hibernate qual dialeto SQL usar para interagir com o MySQL.
 
+###
 ####
-**none:** Não faz nada com o esquema.
+**<property name= hibernate.show_sql">true</property>:** 
 
-####
-**Em produção, update e create** são geralmente evitados. Recomenda-se usar validate ou none e gerenciar as migrações do banco de dados com ferramentas como Flyway ou Liquibase. Para desenvolvimento, update é conveniente.
+Faz com que o Hibernate imprima as instruções SQL geradas no console. Muito útil para depuração.
 
+###
 ####
-**<mapping class= org.example.Entity.Cliente"/>:** Informa ao Hibernate qual classe de entidade Java ele deve mapear para uma tabela no banco de dados.
+**<property name= hibernate.hbm2ddl.auto">update</property>:** 
+
+Extremamente importante e deve ser usado com cautela!
+
+###
+####
+**<mapping class= org.example.Entity.Cliente"/>:** 
+
+Informa ao Hibernate qual classe de entidade Java ele deve mapear para uma tabela no banco de dados.
 
 ##  Como Entender este Código:
 
@@ -915,6 +926,9 @@ public class Main { // Declara a classe principal
 ### Dificuldades:
 
 * A etapa mais desafiadora foi a configuração correta do hibernate.cfg.xml trocando o MySQL para MariaDB nas configurações apresentou desafios específicos relacionados à compatibilidade de drivers e dialetos, exigindo ajustes no pom.xml e no hibernate.cfg.xml
+
+
+
 
 
 
