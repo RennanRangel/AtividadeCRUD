@@ -524,172 +524,206 @@ delete(Long id): Busca o cliente pelo ID. session.remove(cliente); remove o obje
 ###
 ```java
 
-package org.example.Service; // Define o pacote onde esta classe está localizada
+package org.example.Service; 
 
-// Importações das classes necessárias para a funcionalidade do DAO
-import org.example.Entity.Cliente;
-import org.example.Entity.Form.ClienteForm;
-import org.example.Repository.ClienteRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.example.Entity.Cliente; 
+import org.example.Entity.Form.ClienteForm; 
+import org.example.Repository.ClienteRepository; 
+import org.hibernate.Session; 
+import org.hibernate.SessionFactory; 
+import org.hibernate.Transaction; 
+import org.hibernate.cfg.Configuration; 
+import java.util.ArrayList; 
+import java.util.List; 
 
-import java.util.ArrayList;
-import java.util.List;
 
-// Implementação da interface ClienteRepository com operações CRUD
-public class ClienteDAO implements ClienteRepository {
+public class ClienteDAO implements ClienteRepository { 
 
-    // Cria uma instância única de SessionFactory (objeto pesado) para gerenciar sessões com o banco
-    private static final SessionFactory sessionFactory = buildSessionFactory();
 
-    // Método responsável por configurar e construir o SessionFactory a partir do arquivo hibernate.cfg.xml
-    private static SessionFactory buildSessionFactory() {
+    private static final SessionFactory sessionFactory = buildSessionFactory(); 
+    // Cria uma instância única e estática do SessionFactory para toda a classe
+
+    private static SessionFactory buildSessionFactory() { 
+        // Método privado para criar a SessionFactory configurando o Hibernate
         try {
-            // Tenta configurar o Hibernate e retornar a SessionFactory
+            // Tenta configurar o Hibernate com o arquivo hibernate.cfg.xml
             return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
         } catch (Throwable ex) {
-            // Em caso de erro na configuração, exibe no console e lança uma exceção
+            // Em caso de erro, exibe no console e lança uma exceção que para a inicialização
             System.err.println("Erro ao criar o SessionFactory: " + ex);
-            throw new ExceptionInInitializerError(ex); // Interrompe a inicialização com erro
+            throw new ExceptionInInitializerError(ex);
         }
     }
 
-    // Método para criar um novo cliente no banco de dados a partir de um ClienteForm
     @Override
     public Cliente create(ClienteForm form) {
-        // Cria um novo objeto Cliente e preenche com os dados do formulário
+        // Método para criar um novo cliente no banco de dados a partir de um formulário
+
         Cliente cliente = new Cliente();
+        // Cria um objeto Cliente vazio
+
         cliente.setNome(form.getNome());
+        // Define o nome do cliente a partir do formulário
+
         cliente.setTelefone(form.getTelefone());
+        // Define o telefone do cliente a partir do formulário
+
         cliente.setEmail(form.getEmail());
+        // Define o email do cliente a partir do formulário
 
-        Transaction transaction = null; // Variável para controlar a transação
+        Transaction transaction = null;
+        // Declara variável para controlar a transação
 
-        // Bloco try-with-resources para abrir e fechar automaticamente a sessão Hibernate
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction(); // Inicia a transação
-            session.persist(cliente); // Persiste (salva) o cliente no banco
-            transaction.commit(); // Confirma (commit) a transação
-            return cliente; // Retorna o cliente criado
+            // Abre uma sessão com o banco de dados (try-with-resources fecha automaticamente)
+            transaction = session.beginTransaction();
+            // Inicia a transação
+
+            session.persist(cliente);
+            // Persiste o cliente no banco (INSERT)
+
+            transaction.commit();
+            // Confirma a transação (commit)
+
+            return cliente;
+            // Retorna o cliente criado com ID gerado pelo banco
         } catch (Exception e) {
-            // Em caso de erro, desfaz a transação se ela tiver sido iniciada
+            // Se ocorrer algum erro
             if (transaction != null) transaction.rollback();
-            throw e; // Lança a exceção para ser tratada externamente
+            // Desfaz a transação se ela foi iniciada
+            throw e;
+            // Relança a exceção para tratamento externo
         }
     }
 
-    // Método para buscar um cliente pelo seu ID
     @Override
     public Cliente get(Long id) {
-        // Abre uma nova sessão e busca o cliente com o método find
+        // Método para buscar um cliente pelo ID
+
         try (Session session = sessionFactory.openSession()) {
-            return session.find(Cliente.class, id); // Retorna o cliente ou null se não encontrado
+            // Abre uma sessão com o banco
+            return session.find(Cliente.class, id);
+            // Busca o cliente da classe Cliente pelo id, retorna null se não encontrado
         }
     }
 
-    // Método para buscar todos os clientes ou filtrar pelo nome, email ou telefone
     @Override
     public List<Cliente> getAll(String filtro) {
-        // Abre uma nova sessão com o banco
+        // Método para buscar todos os clientes, podendo filtrar pelo nome, email ou telefone
+
         try (Session session = sessionFactory.openSession()) {
-
-            // Executa uma consulta HQL para obter todos os clientes
+            // Abre uma sessão com o banco
             List<Cliente> clientes = session.createQuery("FROM Cliente", Cliente.class).list();
+            // Executa uma query HQL para pegar todos os clientes cadastrados
 
-            // Se o filtro for nulo ou vazio, retorna todos os clientes
             if (filtro == null || filtro.trim().isEmpty()) {
+                // Se o filtro for nulo ou vazio, retorna todos os clientes
                 return clientes;
             }
 
-            // Cria uma nova lista para armazenar os clientes que correspondem ao filtro
             List<Cliente> clientesFiltrados = new ArrayList<>();
+            // Cria uma lista para armazenar os clientes que passam no filtro
 
-            // Itera sobre todos os clientes para aplicar o filtro manualmente
             for (Cliente cliente : clientes) {
-                // Verifica se algum dos campos do cliente corresponde exatamente ao filtro
+                // Itera sobre todos os clientes
+
                 if (cliente.getNome().equals(filtro) ||
                         cliente.getEmail().equals(filtro) ||
                         cliente.getTelefone().equals(filtro)) {
+                    // Verifica se o nome, email ou telefone do cliente bate exatamente com o filtro
 
-                    // Adiciona o cliente à lista filtrada
                     clientesFiltrados.add(cliente);
+                    // Se bate, adiciona o cliente na lista filtrada
                 }
             }
-
-            // Retorna a lista de clientes que passaram no filtro
             return clientesFiltrados;
+            // Retorna a lista filtrada
         }
     }
 
-    // Método para atualizar os dados de um cliente existente
     @Override
     public Cliente update(Long id, ClienteForm form) {
-        Transaction transaction = null; // Variável da transação
+        // Método para atualizar os dados de um cliente existente pelo id
 
-        // Abre uma nova sessão para fazer a atualização
+        Transaction transaction = null;
+        // Variável para controlar a transação
+
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction(); // Inicia a transação
+            // Abre a sessão com o banco
+            transaction = session.beginTransaction();
+            // Inicia a transação
 
-            // Busca o cliente existente pelo ID
             Cliente cliente = session.find(Cliente.class, id);
+            // Busca o cliente no banco pelo id
 
-            // Se o cliente for encontrado, atualiza os campos com os novos dados
             if (cliente != null) {
+                // Se cliente existe, atualiza os dados
                 cliente.setNome(form.getNome());
                 cliente.setTelefone(form.getTelefone());
                 cliente.setEmail(form.getEmail());
 
-                // O Hibernate detecta automaticamente mudanças (dirty checking) e salva ao commitar
-                transaction.commit(); // Confirma a transação
-                return cliente; // Retorna o cliente atualizado
+                session.merge(cliente);
+                // Usa merge para aplicar as mudanças ao banco
+
+                transaction.commit();
+                // Confirma a transação
+                return cliente;
+                // Retorna o cliente atualizado
             } else {
-                // Se o cliente não existir, desfaz a transação e retorna null
+                // Se cliente não encontrado
                 System.out.println("Cliente com ID " + id + " não encontrado.");
-                transaction.rollback(); // Desfaz a transação
+                transaction.rollback();
+                // Desfaz a transação
                 return null;
             }
         } catch (Exception e) {
-            // Em caso de erro, desfaz a transação se existir
+            // Em caso de erro
             if (transaction != null) transaction.rollback();
-            throw e; // Propaga a exceção
+            // Desfaz a transação se aberta
+            throw e;
+            // Propaga exceção para cima
         }
     }
 
-    // Método para excluir um cliente pelo ID
     @Override
     public void delete(Long id) {
-        Transaction transaction = null; // Variável da transação
+        // Método para deletar um cliente pelo id
 
-        // Abre uma nova sessão para excluir o cliente
+        Transaction transaction = null;
+        // Variável para transação
+
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction(); // Inicia a transação
+            // Abre a sessão
+            transaction = session.beginTransaction();
+            // Inicia a transação
 
-            // Busca o cliente pelo ID
             Cliente cliente = session.find(Cliente.class, id);
+            // Busca o cliente pelo id
 
-            // Se o cliente for encontrado, remove e confirma a transação
             if (cliente != null) {
-                session.remove(cliente); // Remove o cliente do banco
-                transaction.commit(); // Confirma a exclusão
+                // Se encontrado, remove do banco
+                session.remove(cliente);
+                transaction.commit();
                 System.out.println("Cliente removido com sucesso!");
             } else {
-                // Se o cliente não existir, desfaz a transação e lança exceção
+                // Se não encontrado, desfaz a transação e lança erro
                 transaction.rollback();
                 throw new RuntimeException("Cliente com ID " + id + " não encontrado.");
             }
         } catch (Exception e) {
-            // Em caso de erro, desfaz a transação se necessário
+            // Em caso de erro
             if (transaction != null) transaction.rollback();
-            throw e; // Propaga o erro
+            // Desfaz a transação se aberta
+            throw e;
+            // Propaga a exceção
         }
     }
 
-    // Método auxiliar que retorna todos os clientes sem aplicar filtro (chama getAll com null)
     @Override
     public Iterable<Cliente> listar() {
-        return getAll(null); // Retorna todos os clientes
+        // Método auxiliar que lista todos os clientes sem filtro
+        return getAll(null);
+        // Chama getAll passando filtro nulo para retornar tudo
     }
 }
 ```
