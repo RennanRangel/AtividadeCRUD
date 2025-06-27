@@ -487,7 +487,7 @@ public interface ClienteRepository {
 
 
 ###
-**Passo 2**: Passo 2: SessionFactory (Ponto de Entrada do Hibernate).
+**Passo 2**: SessionFactory (Ponto de Entrada do Hibernate).
 
 private static final SessionFactory sessionFactory = buildSessionFactory(); A SessionFactory é uma fábrica de sessões do Hibernate. É um objeto "pesado" (caro de criar), por isso é criada apenas uma vez (como um static final) quando a classe é carregada.
 
@@ -495,7 +495,7 @@ buildSessionFactory(): Este método encapsula a lógica de inicialização do Hi
 
 
 ###
-**Passo 3**: Passo 3: Session (Conexão ao Banco).
+**Passo 3**: Session (Conexão ao Banco).
 
 try (Session session = sessionFactory.openSession()): Uma Session é uma conexão de curta duração ao banco de dados. É por meio dela que todas as operações de persistência (salvar, buscar, atualizar, deletar) são realizadas. O try-with-resources garante que a sessão seja fechada automaticamente após o uso.
 
