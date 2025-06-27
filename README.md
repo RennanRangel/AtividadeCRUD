@@ -183,26 +183,30 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
     * O conteúdo do seu arquivo hibernate.cfg.xml será:
 
 ```xml
-       <?xml version='1.0' encoding='utf-8'?>
+  <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!-- Configuração do banco -->
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>
+        <!-- Configuração do banco com MariaDB -->
+        <property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mariadb://localhost:3306/cadastro</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property> <!-- Deixe em branco se não tiver senha, ou coloque sua senha -->
+        <property name="hibernate.connection.password"></property>
 
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!-- Dialeto apropriado para MariaDB -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
+
+        <!-- Outras configurações -->
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <!-- Mapeamento das entidades -->
+        <!-- Mapeamento da entidade -->
         <mapping class="org.example.Entity.Cliente"/>
     </session-factory>
 </hibernate-configuration>
+
 ```
 
 ### Explicação das Propriedades:
