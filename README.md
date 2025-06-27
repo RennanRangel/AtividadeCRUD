@@ -2,10 +2,12 @@
 
 Este projeto demonstra a implementação de um serviço de gerenciamento de clientes em Java, utilizando os princípios de persistência de dados com Hibernate (como provedor JPA) e boas práticas de arquitetura. O objetivo é simular as operações CRUD (Criar, Ler, Atualizar, Deletar) de clientes, com foco na separação de responsabilidades e na validação de entrada de dados.
 
+###
 ##  Visão Geral
 
 O sistema é estruturado em camadas distintas (Controller, Service/Repository, Entity, Form) para promover a organização, manutenibilidade e testabilidade do código. Ele utiliza o Hibernate para mapeamento objeto-relacional (ORM) e interação com o banco de dados, e Jakarta Validation para garantir a integridade dos dados de entrada.
 
+###
 ##  Tecnologias Utilizadas
 
 * **Java 17+**
@@ -15,6 +17,7 @@ O sistema é estruturado em camadas distintas (Controller, Service/Repository, E
 * **Jakarta Validation** (para validação de dados)
 * **Maven** (ferramenta de build e gerenciamento de dependências)
 
+###
 ##  Estrutura do Sistema
 
 O projeto segue uma arquitetura baseada em camadas para promover a clareza, modularidade e separação de responsabilidades. Cada pacote tem uma função específica no fluxo da aplicação:
@@ -36,7 +39,7 @@ O projeto segue uma arquitetura baseada em camadas para promover a clareza, modu
     * `hibernate.cfg.xml`: Arquivo de configuração fundamental do Hibernate, definindo as propriedades de conexão com o banco de dados, o dialeto SQL e o comportamento de gerenciamento do schema.
 
 
-
+###
 ## Passos para Configurar o Maven 
 
 ### Acessar o Site e Pesquisar a Dependência
@@ -146,7 +149,7 @@ Ao fazer isso, o Maven irá:
 
 Agora você está pronto para usar a biblioteca em seu código!
 
-
+###
 ##  Passos para Configurar o Hibernate (MySQL)
 
 O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado em `src/main/resources/`. Siga os passos para garantir a conexão correta com seu banco de dados MySQL:
@@ -242,6 +245,7 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
 ####
 * **<mapping class= org.example.Entity.Cliente"/>:** Informa ao Hibernate qual classe de entidade Java ele deve mapear para uma tabela no banco de dados.
 
+###
 ##  Como Entender este Código:
 
 ####
@@ -871,6 +875,7 @@ public class Main { // Declara a classe principal
 ```
 
 ###
+###
 
 ##  Conceitos Chave Demonstrados
 
@@ -909,6 +914,8 @@ public class Main { // Declara a classe principal
 ### Dificuldades:
 
 * A etapa mais desafiadora foi a configuração correta do hibernate.cfg.xml trocando o MySQL para MariaDB nas configurações apresentou desafios específicos relacionados à compatibilidade de drivers e dialetos, exigindo ajustes no pom.xml e no hibernate.cfg.xml
+
+
 
 
 
