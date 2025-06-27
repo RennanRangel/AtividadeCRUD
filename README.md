@@ -147,7 +147,7 @@ Ao fazer isso, o Maven irá:
 ####
 * A dependência será adicionada ao classpath do seu projeto, tornando suas classes e funcionalidades disponíveis para o seu código.
 
-Agora você está pronto para usar a biblioteca em seu código!
+
 
 ###
 ##  Passos para Configurar o Hibernate (MySQL)
