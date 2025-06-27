@@ -152,7 +152,9 @@ Agora você está pronto para usar a biblioteca em seu código!
 O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado em `src/main/resources/`. Siga os passos para garantir a conexão correta com seu banco de dados MySQL:
 
 1.  **Crie o Banco de Dados e a Tabela:**
+    ####
     * No seu servidor MySQL, conecte-se a um cliente (ex: MySQL Workbench, linha de comando `mysql -u root -p`).
+    ####
     * Execute os seguintes comandos SQL para criar o banco de dados e a tabela `cliente`:
 
         ```sql
@@ -167,9 +169,10 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
             telefone VARCHAR(50) NOT NULL
         );
         ```
-    * **Nota sobre `hibernate.hbm2ddl.auto`**: O `hibernate.hbm2ddl.auto` configurado como `update` no seu `hibernate.cfg.xml` é capaz de criar ou atualizar a tabela `cliente` automaticamente com base na sua entidade `Cliente.java`. No entanto, é uma boa prática criar o banco de dados e ter o DDL da tabela para referência ou em caso de uso em produção (onde `update` é geralmente evitado).
+    
 ###
 2.  **Ajuste as Credenciais no `hibernate.cfg.xml`:**
+    ####
     * Abra o arquivo `src/main/resources/hibernate.cfg.xml`.
     ####
     * Localize as propriedades de conexão e atualize-as com os detalhes do seu ambiente e o nome do banco de dados `cadastro`
@@ -201,63 +204,43 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
 
 ### Explicação das Propriedades:
 
- **<property name=hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>:** 
- 
-Define o driver JDBC a ser usado para conectar ao MySQL. com.mysql.cj.jdbc.Driver é o driver para MySQL Connector/J 8.x.
+* **<property name=hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>:** Define o driver JDBC a ser usado para conectar ao MySQL. com.mysql.cj.jdbc.Driver é o driver para MySQL Connector/J 8.x.
 
 ###
 ####
-**<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>:** 
-
-A URL de conexão com o banco de dados. 
+* **<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>:** A URL de conexão com o banco de dados. 
 
 ###
 ####
-**localhost:3306:** 
-
-Onde seu servidor MySQL está rodando e a porta padrão. Ajuste se for diferente.
+* **localhost:3306:** Onde seu servidor MySQL está rodando e a porta padrão. Ajuste se for diferente.
 
 ###
 ####
-**cadastro:** 
-
-O nome do banco de dados que você criou no passo 1.
+* **cadastro:** O nome do banco de dados que você criou no passo 1.
 
 ###
 ####
-**<property name=hibernate.connection.username">root</property:** 
-
-O nome de usuário do seu MySQL. Ajuste se for diferente.
+* **<property name=hibernate.connection.username">root</property:** O nome de usuário do seu MySQL. Ajuste se for diferente.
 
 ###
 ####
-**<property name=hibernate.connection.password"></property>:** 
-
-A senha do seu usuário MySQL. Ajuste se for diferente. Se o usuário root não tiver senha, deixe as aspas vazias "".
+* **<property name=hibernate.connection.password"></property>:** A senha do seu usuário MySQL. Ajuste se for diferente. Se o usuário root não tiver senha, deixe as aspas vazias "".
 
 ###
 ####
-**<property name= hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>:** 
-
-Indica ao Hibernate qual dialeto SQL usar para interagir com o MySQL.
+* **<property name= hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>:** Indica ao Hibernate qual dialeto SQL usar para interagir com o MySQL.
 
 ###
 ####
-**<property name= hibernate.show_sql">true</property>:** 
-
-Faz com que o Hibernate imprima as instruções SQL geradas no console. Muito útil para depuração.
+* **<property name= hibernate.show_sql">true</property>:** Faz com que o Hibernate imprima as instruções SQL geradas no console. Muito útil para depuração.
 
 ###
 ####
-**<property name= hibernate.hbm2ddl.auto">update</property>:** 
-
-Extremamente importante e deve ser usado com cautela!
+* **<property name= hibernate.hbm2ddl.auto">update</property>:** Extremamente importante e deve ser usado com cautela!
 
 ###
 ####
-**<mapping class= org.example.Entity.Cliente"/>:** 
-
-Informa ao Hibernate qual classe de entidade Java ele deve mapear para uma tabela no banco de dados.
+* **<mapping class= org.example.Entity.Cliente"/>:** Informa ao Hibernate qual classe de entidade Java ele deve mapear para uma tabela no banco de dados.
 
 ##  Como Entender este Código:
 
@@ -926,6 +909,9 @@ public class Main { // Declara a classe principal
 ### Dificuldades:
 
 * A etapa mais desafiadora foi a configuração correta do hibernate.cfg.xml trocando o MySQL para MariaDB nas configurações apresentou desafios específicos relacionados à compatibilidade de drivers e dialetos, exigindo ajustes no pom.xml e no hibernate.cfg.xml
+
+
+
 
 
 
