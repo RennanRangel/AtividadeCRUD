@@ -1,4 +1,4 @@
-#  Sistema de Gerenciamento de Clientes 
+#  Sistema de Gerenciamento de Clientes (API Simulado)
 
 Este projeto demonstra a implementação de um serviço de gerenciamento de clientes em Java, utilizando os princípios de persistência de dados com Hibernate (como provedor JPA) e boas práticas de arquitetura. O objetivo é simular as operações CRUD (Criar, Ler, Atualizar, Deletar) de clientes, com foco na separação de responsabilidades e na validação de entrada de dados.
 
@@ -35,6 +35,118 @@ O projeto segue uma arquitetura baseada em camadas para promover a clareza, modu
   ####
     * `hibernate.cfg.xml`: Arquivo de configuração fundamental do Hibernate, definindo as propriedades de conexão com o banco de dados, o dialeto SQL e o comportamento de gerenciamento do schema.
 
+
+
+## Passos para Configurar o Maven 
+
+### Acessar o Site e Pesquisar a Dependência
+
+* Abra seu navegador e vá para https://mvnrepository.com/.
+
+####
+* Na barra de pesquisa central, digite o nome da biblioteca deseja adicionar ao seu projeto (por exemplo,"JUnit", Jakarta Persistence).
+
+
+### Selecionar a Dependência Correta
+
+####
+* Nos resultados da pesquisa, clique na dependência que melhor corresponde ao que você procura. Geralmente, você vai querer a que tem o groupId e artifactId mais comuns ou oficiais (ex: jakarta.persistence-api, junit para JUnit).
+
+####
+Após clicar na dependência, você verá uma lista das versões disponíveis. É crucial escolher a versão correta. Recomenda-se:
+
+* Versões Estáveis: Prefira as versões estáveis (sem -SNAPSHOT, -BETA, -RC no final), a menos que você tenha um motivo específico para usar uma versão de pré-lançamento.
+
+####
+* Versão Mais Recente: Na maioria dos casos, a versão mais recente e estável é a melhor escolha, pois geralmente contém correções de bugs e novos recursos.
+
+####
+* Clique no número da versão que você deseja usar.
+
+
+### Copiar o Snippet de Dependência
+
+####
+* Ao clicar na versão, você será levado a uma página com os detalhes dessa versão específica.
+
+####
+* Nessa página, você encontrará vários "snippets" (trechos de código) para diferentes gerenciadores de dependência. Por padrão, o Maven é o primeiro e mais proeminente.
+
+####
+* Copie o código XML completo que está dentro da caixa de texto (ele começa com <dependency> e termina com </dependency>).
+
+
+### Adicionar a Dependência ao seu Arquivo pom.xml
+
+####
+* Abra seu projeto Maven na sua IDE (IntelliJ IDEA, Eclipse, VS Code, etc.).
+
+####
+* Localize o arquivo pom.xml na raiz do seu projeto.
+
+####
+* Procure pela seção <dependencies>. Se ela não existir, você precisará criá-la logo abaixo da tag <project> principal, mas antes de quaisquer outras tags de nível superior como <build>.
+Exemplo de estrutura básica do pom.xml com a seção <dependencies>:
+
+ ```pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.seusprojetos</groupId>
+    <artifactId>meu-app-maven</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- COLE AQUI O SNIPPET DA DEPENDÊNCIA -->
+    </dependencies>
+
+</project>
+```
+
+* Cole o snippet <dependency> que você copiou do mvnrepository.com dentro da tag <dependencies>.
+  Exemplo após colar uma dependência do Jakarta Persistence:
+
+```pom
+<!-- https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
+<dependency>
+    <groupId>jakarta.persistence</groupId>
+    <artifactId>jakarta.persistence-api</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
+### Salvar e Atualizar o Projeto Maven
+
+* Salve o arquivo pom.xml.
+
+####
+* Sua IDE geralmente detectará a mudança no pom.xml e perguntará se você deseja "Importar mudanças" ou "Sincronizar Projeto Maven". Confirme esta ação.
+
+####
+* Se a IDE não perguntar, procure uma opção como "Maven" -> "Reload Project" ou "Update Project" no menu de contexto do seu projeto ou na janela de ferramentas Maven da sua IDE.
+
+Ao fazer isso, o Maven irá:
+
+* Verificar seu repositório local.
+
+####
+* Se a dependência não estiver lá, ele a baixará do Maven Central (ou de outros repositórios configurados).
+
+####
+* A dependência será adicionada ao classpath do seu projeto, tornando suas classes e funcionalidades disponíveis para o seu código.
+
+Agora você está pronto para usar a biblioteca em seu código!
+
+
 ##  Passos para Configurar o Hibernate (MySQL)
 
 O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado em `src/main/resources/`. Siga os passos para garantir a conexão correta com seu banco de dados MySQL:
@@ -70,8 +182,6 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
 
 ##  Como Entender este Código:
 
-
-  
 ####
 `Controller/ClienteController.java`
 
@@ -737,4 +847,6 @@ public class Main { // Declara a classe principal
 ### Dificuldades:
 
 * A etapa mais desafiadora foi a configuração correta do hibernate.cfg.xml trocando o MySQL para MariaDB nas configurações apresentou desafios específicos relacionados à compatibilidade de drivers e dialetos, exigindo ajustes no pom.xml e no hibernate.cfg.xml
+
+
 
