@@ -1,4 +1,4 @@
-#  Sistema de Gerenciamento de Clientes 
+#  Sistema de Gerenciamento de Clientes
 
 Este projeto demonstra a implementação de um serviço de gerenciamento de clientes em Java, utilizando os princípios de persistência de dados com Hibernate (como provedor JPA) e boas práticas de arquitetura. O objetivo é simular as operações CRUD (Criar, Ler, Atualizar, Deletar) de clientes, com foco na separação de responsabilidades e na validação de entrada de dados.
 
@@ -40,7 +40,7 @@ O projeto segue uma arquitetura baseada em camadas para promover a clareza, modu
 
 
 ###
-## Passos para Configurar o Maven 
+## Passos para Configurar o Maven
 
 ### Acessar o Site e Pesquisar a Dependência
 
@@ -89,7 +89,7 @@ Após clicar na dependência, você verá uma lista das versões disponíveis. �
 
 ####
 * Procure pela seção <dependencies>. Se ela não existir, você precisará criá-la logo abaixo da tag <project> principal, mas antes de quaisquer outras tags de nível superior como <build>.
-Exemplo de estrutura básica do pom.xml com a seção <dependencies>:
+  Exemplo de estrutura básica do pom.xml com a seção <dependencies>:
 
  ```pom.xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -172,7 +172,7 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
             telefone VARCHAR(50) NOT NULL
         );
         ```
-    
+
 ###
 2.  **Ajuste as Credenciais no `hibernate.cfg.xml`:**
     ####
@@ -181,7 +181,7 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
     * Localize as propriedades de conexão e atualize-as com os detalhes do seu ambiente e o nome do banco de dados `cadastro`
     ####
     * O conteúdo do seu arquivo hibernate.cfg.xml será:
-      
+
 ```xml
        <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
@@ -191,7 +191,7 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
     <session-factory>
         <!-- Configuração do banco -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro?useTimezone=true&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property> <!-- Deixe em branco se não tiver senha, ou coloque sua senha -->
 
@@ -211,7 +211,7 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
 
 ###
 ####
-* **<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>:** A URL de conexão com o banco de dados. 
+* **<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>:** A URL de conexão com o banco de dados.
 
 ###
 ####
@@ -914,6 +914,7 @@ public class Main { // Declara a classe principal
 ### Dificuldades:
 
 * A etapa mais desafiadora foi a configuração correta do hibernate.cfg.xml trocando o MySQL para MariaDB nas configurações apresentou desafios específicos relacionados à compatibilidade de drivers e dialetos, exigindo ajustes no pom.xml e no hibernate.cfg.xml
+
 
 
 
