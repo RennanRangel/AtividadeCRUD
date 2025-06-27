@@ -189,14 +189,14 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!-- Configuração do banco com MariaDB -->
-        <property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mariadb://localhost:3306/cadastro</property>
+        <!-- Configuração do banco com MySQL -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro?useSSL=false&amp;serverTimezone=UTC</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
 
-        <!-- Dialeto apropriado para MariaDB -->
-        <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
+        <!-- Dialeto apropriado para MySQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
         <!-- Outras configurações -->
         <property name="hibernate.show_sql">true</property>
@@ -206,7 +206,6 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
         <mapping class="org.example.Entity.Cliente"/>
     </session-factory>
 </hibernate-configuration>
-
 ```
 
 ### Explicação das Propriedades:
