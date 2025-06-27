@@ -191,7 +191,7 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
     <session-factory>
         <!-- Configuração do banco com MySQL -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cadastro</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
 
