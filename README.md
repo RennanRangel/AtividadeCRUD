@@ -218,7 +218,7 @@ O Hibernate é configurado através do arquivo `hibernate.cfg.xml`, localizado e
 
 ###
 ####
-* **localhost:3306:** Onde seu servidor MySQL está rodando e a porta padrão. Ajuste se for diferente.
+* **localhost:3306:** Onde seu servidor MySQL está rodando e a porta padrão.
 
 ###
 ####
