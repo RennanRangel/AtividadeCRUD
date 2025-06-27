@@ -1,4 +1,4 @@
-istema de Gerenciamento de Clientes (API Simulado)
+#  Sistema de Gerenciamento de Clientes (API Simulado)
 
 Este projeto demonstra a implementação de um serviço de gerenciamento de clientes em Java, utilizando os princípios de persistência de dados com Hibernate (como provedor JPA) e boas práticas de arquitetura. O objetivo é simular as operações CRUD (Criar, Ler, Atualizar, Deletar) de clientes, com foco na separação de responsabilidades e na validação de entrada de dados.
 
